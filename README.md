@@ -1,418 +1,111 @@
-# EDA with Pandas - Cumulative Lab
+# Market Analysis & Insights For Strategic Movie Production
 
-## Introduction
+###### Authors ;
+[Noel Christopher](https://github.com/NOE0464) 
 
-In this section, you've learned a lot about importing, cleaning up, analyzing (using descriptive statistics) and visualizing data. In this cumulative lab, you'll get a chance to practice all of these skills with the Ames Housing dataset, which contains information about home sales in Ames, Iowa between 2006 and 2010.
+[Margaret Nyairo](https://github.com/vidya-byte)
 
-## Objectives
+[Victor Masinde](https://github.com/Masinde10)
 
-You will be able to:
+[Anthony Ekeno](https://github.com/sananthonio)
 
-* Practice loading data with pandas
-* Practice calculating measures of centrality and dispersion with pandas
-* Practice creating subsets of data with pandas
-* Practice using data visualizations to explore data, and interpreting those visualizations
-* Perform a full exploratory data analysis process to gain insight about a dataset 
-
-## Your Task: Explore the Ames Housing Dataset with Pandas
-
-![aerial photo of a neighborhood](images/neighborhood_aerial.jpg)
-
-Photo by <a href="https://unsplash.com/@mattdonders?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Matt Donders</a> on <a href="/@mattdonders?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+[James Ngumo](https://github.com/nyange21)
 
 
+## Business Understanding
+
+### Overview
+This project is designed to aid a company's venture into the movie production industry by launching a new studio. Through comprehensive data analysis, the project will identify current trends and provide actionable insights from box office data. This information will guide the company in determining the types of movies that are most successful in today’s market, thereby supporting strategic content creation and maximizing box office returns.
+
+![Alt text](warner_bros__collage_by_kingevan210_df9ywqu-fullview.png)
+
+
+###  The Problem Statement
+The company needs to pinpoint what types of movies are most successful in the current market to propel the new studio's launch. Specifically, we aim to:
+
+1. **Identify the Genres Performing Well at the Box Office**: Determine which movie genres are currently popular and yield high box office returns.
+   
+2. **Analyze Movie Budgets and Profitability**: Evaluate the relationship between production budgets, returns, and overall profitability to find the optimal investment range.
+   
+3. **Assess Audience Demographics Driving Success**: Understand which demographic segments are contributing significantly to box office revenues.
+   
+4. **Recommend Optimal Release Seasons or Windows**: Identify the best times of the year for releasing movies to maximize box office performance.
+
+### Main objectives
+To identify the most successful types of films currently at the box office and translate these insights into actionable strategies that guide the new movie studio's production choices, ensuring competitive and commercial success in the film industry.
+
+### Keystakeholders
+1. Audience
+2. Investors and Financers 
 
 ### Data Understanding
+The data used in this analysis contains data collected from various popular movie sites such as Box Office Mojo, IMDb, movie info and budget info. It contains detailed information on movie titles, actors, directors, box office earnings, and movie ratings.
+ 
+We are working with four different datasets for this project. The first one named `imdb` has `73856 rows and 5 columns`. It has all the three types of data namely Float, intergers and objects. The data here helps us analyse the genres, titles, runtime minutes and the ratings of movies
 
-Each record (row) in this dataset represents a home that was sold in Ames, IA.
+The second dataset is named `gross` and it has `3387 rows and 5 columns`. It has Float, intergers and objects as dataypes. The data here helps us analyse income generated as it contains columns with domestic and foreign gross data.
 
-Each feature (column) in this dataset is some attribute of that home sale. You can view the file `data/data_description.txt` in this repository for a full explanation of all variables in this dataset — 80 columns in total.
+The third dataset is named `budget` and it has `5782 rows and 6 columns`. The datatypes in this dataset are intergers and objects only. It has columns that can help us calculate the budget of producing a movie i.e production_budget. We can also see seasonal trends as it has a column with information on dates.
 
-We are going to focus on the following features:
+The last dataset is named `movie_info` and it has `1560 rows and 12 columns`. The datatypes in this dataset are intergers and objects only. It has columns with information about writer, director, studio etc that can help us make informed reccomendations at the end of the project
 
-**SalePrice**: `Sale price of the house in dollars`
+The imdb data was stored in a sql database with several tables as shown in the Entity Relationship Diagram below
+![Alt text](movie_data_erd.jpeg)
 
-**TotRmsAbvGrd**: `Total rooms above grade (does not include bathrooms)`
+### Data Cleaning
+Missing values and duplicated rows are handled. Also, columns irrelevant to the project are dropped. Formatting of columns and their contents for smooth analysis.
 
-**OverallCond**: `Rates the overall condition of the house`
-```
-       10	Very Excellent
-       9	 Excellent
-       8	 Very Good
-       7	 Good
-       6	 Above Average	
-       5	 Average
-       4	 Below Average	
-       3	 Fair
-       2	 Poor
-       1	 Very Poor
-```
+### Data Analysis; Transformation, Merging, Visualisations.
+`Transformation`-Converting the data types in our datasets to enable                          manipulation.gross[foreign_gross]&budget[domestic_gross,producion_budget,worldwide_gross] the columns in this dataset are object datatype,this means the numeric figures are read like strings instead of numbers. So to have clarity ,we convert them to float datatype for more accurate readings
 
-**YrSold**: `Year Sold (YYYY)`
+`Merging`-Having a cleaned data versions we perform merge .Merging data frames combines multiple datasets into a single, unified dataset,allowing for a more comprehensive analysis.Merging the datasets will enable us to explain more with visualization for better understanding of our objective
 
-**YearBuilt**: `Original construction date`
+#### visaualisations
+The merged data is analysed by use of visualizations. Sample visualizations include:
 
-**LandSlope**: `Slope of property`
-```
-       Gtl	Gentle slope
-       Mod	Moderate Slope	
-       Sev	Severe Slope
-```
+a)demographic perfomance analyses how the ratings are perceived locally, internationally and the total outcome.
+![alt text](ede92e26-a51a-401d-b7ec-5ec3069f0372.png)
 
-### Requirements
+b) Monthly Release compares the different months earnings.
+![alt text](8725acf8-c5cf-4f65-89df-0adec120d748.png)
 
-In this lab you will use your data munging and visualization skills to conduct an exploratory analysis of the dataset.
+c) Studio production Budgets compares financial input of different studio.
+![alt text](84bfc1a3-f419-4bf4-aef8-d0a09efc2d9d.png)
 
-#### 1. Load the Dataset with Pandas
+For more Visualisation follow this Tableau Link = [Interactive Dashboard](https://public.tableau.com/views/FILMANALYSIS_/InteractiveDashboard?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
-Import pandas with the standard alias `pd` and load the data into a dataframe with the standard name `df`.
+## Conclusions
+Demographics Driving Success:
+-The analysis of ratings indicates that PG-13 rated movies have the highest domestic earnings, while R-rated movies perform better in foreign markets. This suggests that different ratings attract different audience segments.
 
-#### 2. Explore Data Distributions
+Optimal Release Seasons:
+-The analysis of monthly performance shows that October has the highest total gross, followed by September, while June has the lowest total returns. This indicates that the fall(SEPT/OCT) season may be the most lucrative time for movie releases.
+-The foreign gross tends to outperform domestic gross in September and October, suggesting that these months may attract a more international audience.
 
-Produce summary statistics, visualizations, and interpretive text describing the distributions of `SalePrice`, `TotRmsAbvGrd`, and `OverallCond`.
+Movie Budgets and Profitability:
+-There is a strong positive correlation (0.800886) between domestic gross and worldwide gross, suggesting that movies with higher domestic earnings tend to perform well globally.
+-The analysis of studio budgets shows that A24 has the highest production budget, which may correlate with its success in producing high-grossing films.
+-Studios like Fox have lower production budgets, which may limit their ability to produce high-grossing films.
 
-#### 3. Explore Differences between Subsets
+Most popular Gernres;
+-Documentary
+-Comedy,Drama,History
+-Action, Thriller & Comedy,Drama,Thriller
+-These are the most popular genres in the movie industry
 
-Separate the data into subsets based on `OverallCond`, then demonstrate how this split impacts the distribution of `SalePrice`.
+## Recommendations
+We would recommend the company to focus on :
 
-#### 4. Explore Correlations
+High-Performing Genres:The new studio should prioritize producing films in the`Documentary` , it yield's high box office returns.
 
-Find the features that have the strongest positive and negative correlations with `SalePrice`, and produce plots representing these relationships.
+Strategic Release Timing: Plan major releases for the fall months `(September and October)` to capitalize on higher audience turnout and box office performance. September has highest returns on Domestic market while October has highest returns in the Foreign market
 
-#### 5. Engineer and Explore a New Feature
+Budget Allocation : since we want to minimize cost and it is not necessarily correct that a high production budget relates to higher returns. The optimal solution would be choosing  the studio with the lowest production budget , which is `Fox`
 
-Create a new feature `Age`, which represents the difference between the year sold and the year built, and plot the relationship between the age and sale price.
+Target Audience: Marketing strategies based on the ratings that perform best in different markets. For instance, focus on PG-13 ratings for domestic releases and R ratings for international markets.
+ 
+If interested in other options, consider the following genres ; `Comedy/Drama/History, Action/Thriller & Comedy/Drama/Thriller`.
 
-## 1. Load the Dataset with Pandas
+If interested in other studios with favorable budgets, consider ; ` Independent Film Channel(IFC) & Warner Bros(WB)`.
 
-In the cell below, import:
-* `pandas` with the standard alias `pd`
-* `matplotlib.pyplot` with the standard alias `plt`
 
-And set `%matplotlib inline` so the graphs will display immediately below the cell that creates them.
-
-
-```python
-# Your code here
-```
-
-Now, use pandas to open the file located at `data/ames.csv` ([documentation here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)). Specify the argument `index_col=0` in order to avoid creating an extra `Id` column. Name the resulting dataframe `df`.
-
-
-```python
-# Your code here
-```
-
-The following code checks that you loaded the data correctly:
-
-
-```python
-# Run this cell without changes
-
-# Check that df is a dataframe
-assert type(df) == pd.DataFrame
-
-# Check that there are the correct number of rows
-assert df.shape[0] == 1460
-
-# Check that there are the correct number of columns
-# (if this crashes, make sure you specified `index_col=0`)
-assert df.shape[1] == 80
-```
-
-Inspect the contents of the dataframe:
-
-
-```python
-# Run this cell without changes
-df
-```
-
-
-```python
-# Run this cell without changes
-df.info()
-```
-
-## 2. Explore Data Distributions
-
-Write code to produce histograms showing the distributions of `SalePrice`, `TotRmsAbvGrd`, and `OverallCond`.
-
-Each histogram should have appropriate title and axes labels, as well as a black vertical line indicating the mean of the dataset. See the documentation for [plotting histograms](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.hist.html), [customizing axes](https://matplotlib.org/stable/api/axes_api.html#axis-labels-title-and-legend), and [plotting vertical lines](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.axvline.html#matplotlib.axes.Axes.axvline) as needed.
-
-### Sale Price
-
-In the cell below, produce a histogram for `SalePrice`.
-
-
-```python
-# Your code here
-```
-
-Now, print out the mean, median, and standard deviation:
-
-
-```python
-# Your code here
-```
-
-In the cell below, interpret the above information.
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-### Total Rooms Above Grade
-
-In the cell below, produce a histogram for `TotRmsAbvGrd`.
-
-
-```python
-# Your code here
-```
-
-Now, print out the mean, median, and standard deviation:
-
-
-```python
-# Your code here
-```
-
-In the cell below, interpret the above information.
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-### Overall Condition
-
-In the cell below, produce a histogram for `OverallCond`.
-
-
-```python
-# Your code here
-```
-
-Now, print out the mean, median, and standard deviation:
-
-
-```python
-# Your code here
-```
-
-In the cell below, interpret the above information.
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-## 3. Explore Differences between Subsets
-
-As you might have noted in the previous step, the overall condition of the house seems like we should treat it as more of a categorical variable, rather than a numeric variable.
-
-One useful way to explore a categorical variable is to create subsets of the full dataset based on that categorical variable, then plot their distributions based on some other variable. Since this dataset is traditionally used for predicting the sale price of a house, let's use `SalePrice` as that other variable.
-
-In the cell below, create three variables, each of which represents a record-wise subset of `df` (meaning, it has the same columns as `df`, but only some of the rows).
-
-* `below_average_condition`: home sales where the overall condition was less than 5
-* `average_condition`: home sales where the overall condition was exactly 5
-* `above_average_condition`: home sales where the overall condition was greater than 5
-
-
-```python
-# Replace None with appropriate code
-below_average_condition = None
-average_condition = None
-above_average_condition = None
-```
-
-The following code checks that you created the subsets correctly:
-
-
-```python
-# Run this cell without changes
-
-# Check that all of them still have 80 columns
-assert below_average_condition.shape[1] == 80
-assert average_condition.shape[1] == 80
-assert above_average_condition.shape[1] == 80
-
-# Check the numbers of rows of each subset
-assert below_average_condition.shape[0] == 88
-assert average_condition.shape[0] == 821
-assert above_average_condition.shape[0] == 551
-```
-
-The following code will produce a plot of the distributions of sale price for each of these subsets:
-
-
-```python
-# Run this cell without changes
-
-# Set up plot
-fig, ax = plt.subplots(figsize=(15,5))
-
-# Create custom bins so all are on the same scale
-bins = range(df["SalePrice"].min(), df["SalePrice"].max(), int(df["SalePrice"].median()) // 20)
-
-# Plot three histograms, with reduced opacity (alpha) so we
-# can see them overlapping
-ax.hist(
-    x=above_average_condition["SalePrice"],
-    label="above average condition",
-    bins=bins,
-    color="cyan",
-    alpha=0.5
-)
-ax.hist(
-    x=average_condition["SalePrice"],
-    label="average condition",
-    bins=bins,
-    color="gray",
-    alpha=0.3
-)
-ax.hist(
-    x=below_average_condition["SalePrice"],
-    label="below average condition",
-    bins=bins,
-    color="yellow",
-    alpha=0.5
-)
-
-# Customize labels
-ax.set_title("Distributions of Sale Price Grouped by Condition")
-ax.set_xlabel("Sale Price")
-ax.set_ylabel("Number of Houses")
-ax.legend();
-```
-
-Interpret the plot above. What does it tell us about these overall condition categories, and the relationship between overall condition and sale price? Is there anything surprising?
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-## 4. Explore Correlations
-
-To understand more about what features of these homes lead to higher sale prices, let's look at some correlations. We'll return to using the full `df`, rather than the subsets.
-
-In the cell below, print out both the name of the column and the Pearson correlation for the column that is ***most positively correlated*** with `SalePrice` (other than `SalePrice`, which is perfectly correlated with itself).
-
-We'll only check the correlations with some kind of numeric data type.
-
-You can import additional libraries, although it is possible to do this just using pandas.
-
-
-```python
-# Your code here
-```
-
-Now, find the ***most negatively correlated*** column:
-
-
-```python
-# Your code here
-```
-
-Once you have your answer, edit the code below so that it produces a box plot of the relevant columns.
-
-
-```python
-# Replace None with appropriate code
-
-import seaborn as sns
-
-fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(15,5))
-
-# Plot distribution of column with highest correlation
-sns.boxplot(
-    x=None,
-    y=df["SalePrice"],
-    ax=ax1
-)
-# Plot distribution of column with most negative correlation
-sns.boxplot(
-    x=None,
-    y=df["SalePrice"],
-    ax=ax2
-)
-
-# Customize labels
-ax1.set_title(None)
-ax1.set_xlabel(None)
-ax1.set_ylabel("Sale Price")
-ax2.set_title(None)
-ax2.set_xlabel(None)
-ax2.set_ylabel("Sale Price");
-```
-
-Interpret the results below. Consult `data/data_description.txt` as needed.
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-## 5. Engineer and Explore a New Feature
-
-Here the code is written for you, all you need to do is interpret it.
-
-We note that the data spans across several years of sales:
-
-
-```python
-# Run this cell without changes
-df["YrSold"].value_counts().sort_index()
-```
-
-Maybe we can learn something interesting from the age of the home when it was sold. This uses information from the `YrBuilt` and `YrSold` columns, but represents a truly distinct feature.
-
-
-```python
-# Run this cell without changes
-
-# Make a new column, Age
-df["Age"] = df["YrSold"] - df["YearBuilt"]
-
-# Set up plot
-fig, ax = plt.subplots(figsize=(15,5))
-
-# Plot Age vs. SalePrice
-ax.scatter(df["Age"], df["SalePrice"], alpha=0.3, color="green")
-ax.set_title("Home Age vs. Sale Price")
-ax.set_xlabel("Age of Home at Time of Sale")
-ax.set_ylabel("Sale Price");
-```
-
-Interpret this plot below:
-
-
-```python
-# Replace None with appropriate text
-"""
-None
-"""
-```
-
-## Summary
-
-Congratulations, you've completed an exploratory data analysis of a popular dataset. You saw how to inspect the distributions of individual columns, subsets of columns, correlations, and new engineered features.
